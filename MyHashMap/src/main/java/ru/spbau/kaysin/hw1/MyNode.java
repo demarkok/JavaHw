@@ -1,24 +1,15 @@
-package ru.spbau.mit.demarkok.hw1;
+package ru.spbau.kaysin.hw1;
 
 public class MyNode {
-    String key, value;
-    MyNode prev, next;
+    final String key, value;
+    MyNode prev = null, next = null;
 
     public MyNode(String key, String value) {
         this.key = key;
         this.value = value;
     }
 
-    public MyNode(String key, String value, MyNode prev, MyNode next) {
-        this.key = key;
-        this.value = value;
-        this.prev = prev;
-        this.next = next;
-    }
-
-    MyNode insertBefore(String key, String value) {
-        MyNode n = new MyNode(key, value);
-
+    MyNode insertBefore(MyNode n) {
         n.next = this;
         n.prev = prev;
         prev = n;
@@ -36,3 +27,4 @@ public class MyNode {
         }
     }
 }
+

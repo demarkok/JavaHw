@@ -1,4 +1,4 @@
-package ru.spbau.mit.demarkok.hw1;
+package ru.spbau.kaysin.hw1;
 
 public class MyList {
     MyNode head;
@@ -11,10 +11,10 @@ public class MyList {
     public void insert(String key, String value){
         if (size == 0) {
             size = 1;
-            head = new MyNode(key, value, null, null);
+            head = new MyNode(key, value);
         } else {
             size++;
-            head = head.insertBefore(key, value);
+            head = head.insertBefore(new MyNode(key, value));
         }
     }
 

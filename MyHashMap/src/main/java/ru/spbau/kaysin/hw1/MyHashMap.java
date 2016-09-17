@@ -1,4 +1,4 @@
-package ru.spbau.mit.demarkok.hw1;
+package ru.spbau.kaysin.hw1;
 
 public class MyHashMap {
 
@@ -53,6 +53,10 @@ public class MyHashMap {
         // положить по ключу key значение value
         // и вернуть ранее хранимое, либо null
         String old = get(key);
+        if (old != null) {
+            remove(key);
+        }
+
         hashMap[key.hashCode() % capacity].insert(key, value);
         size++;
         if (size == capacity) {

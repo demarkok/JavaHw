@@ -8,27 +8,22 @@ public class MyTrie implements Trie, StreamSerializable {
     private Node root = new Node();
     private int size = 0;
 
-    private void getAllStrings(StringBuilder sb, ArrayList<String> result, Node n) {
+
+    private void serializeDfs(Node n, StringBuilder sb, PrintWriter pw) {
         if (n.isTerminal) {
-            result.add(sb.toString());
+            pw.write(sb.toString());
+            pw.write(" ");
         }
         for (Map.Entry<Character, Node> c : n.arrows.entrySet()) {
             sb.append(c.getKey());
-            getAllStrings(sb, result, c.getValue());
+            serializeDfs(c.getValue(), sb, pw);
             sb.deleteCharAt(sb.length() - 1);
         }
     }
 
     public void serialize(OutputStream out) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        ArrayList<String> strings = new ArrayList<String>();
-        getAllStrings(sb, strings, root);
-
         PrintWriter pw = new PrintWriter(out);
-        for (String s : strings) {
-            pw.write(s);
-            pw.write(" ");
-        }
+        serializeDfs(root, new StringBuilder(), pw);
         pw.close();
     }
 
@@ -123,7 +118,7 @@ public class MyTrie implements Trie, StreamSerializable {
         return currNode;
     }
 
-    private class Node {
+    private static class Node {
         final HashMap<Character, Node> arrows = new HashMap<Character, Node>();
         Boolean isTerminal = false;
         int termDescendants = 0;

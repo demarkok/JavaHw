@@ -84,21 +84,21 @@ class Collections {
         return takeWhile(p.not(), a);
     }
 
-    static <T> T foldL (Function2<? super T, ? super T, ? extends T> f, T init, Iterable<T> a) {
-        T value = init;
-        for (T it: a) {
+    static <A, B> A foldL(Function2<? super A, ? super B, ? extends A> f, A init, Iterable<B> a) {
+        A value = init;
+        for (B it : a) {
             value = f.apply(value, it);
         }
         return value;
     }
 
-    static <T> T foldR (Function2<? super T, ? super T, ? extends T> f, T init, Iterable<T> a) {
-        Iterator<T> it = a.iterator();
+    static <A, B> B foldR(Function2<? super A, ? super B, ? extends B> f, B init, Iterable<A> a) {
+        Iterator<A> it = a.iterator();
         if (!it.hasNext()) {
             return init;
         } else {
-            T tmp = it.next();
-            return f.apply(tmp, foldR(f, init, (Iterable<T>) () -> it));
+            A tmp = it.next();
+            return f.apply(tmp, foldR(f, init, (Iterable<A>) () -> it));
         }
     }
 }

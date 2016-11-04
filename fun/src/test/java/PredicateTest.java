@@ -1,5 +1,6 @@
 import org.junit.Test;
 
+import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -64,7 +65,7 @@ public class PredicateTest {
     public void AndLazinessTest() {
         Predicate<Object> tru = Predicate.ALWAYS_TRUE;
         Predicate<Object> bot = x -> {
-            assertTrue(false);
+            fail();
             return false;
         };
 
@@ -77,7 +78,7 @@ public class PredicateTest {
     public void OrLazinessTest() {
         Predicate<Object> fls = Predicate.ALWAYS_FALSE;
         Predicate<Object> bot = x -> {
-            assertTrue(false);
+            fail();
             return false;
         };
 

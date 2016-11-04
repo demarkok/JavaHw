@@ -1,3 +1,4 @@
+@SuppressWarnings("WeakerAccess")
 @FunctionalInterface
 public interface Function2<Arg1T, Arg2T, ResT> {
 

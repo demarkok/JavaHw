@@ -1,6 +1,7 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+@SuppressWarnings("WeakerAccess")
 public class Collections {
     public static <ResT, Q> Iterable<ResT> map(Function1<? super Q, ResT> f, Iterable<Q> a) {
         return () -> new Iterator <ResT>() {

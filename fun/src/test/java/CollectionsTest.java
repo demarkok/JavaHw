@@ -2,7 +2,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 
 public class CollectionsTest {
@@ -79,11 +79,11 @@ public class CollectionsTest {
         numbers.add(2);
         numbers.add(3);
 
-        Iterable<Integer> allIt = Collections.takeWhile(new Predicate.ALWAYS_TRUE<>(), numbers);
+        Iterable<Integer> allIt = Collections.takeWhile(Predicate.ALWAYS_TRUE, numbers);
         ArrayList<Integer> allList = new ArrayList<>();
         allIt.forEach(allList::add);
 
-        Iterable<Integer> noIt = Collections.takeWhile(new Predicate.ALWAYS_FALSE<>(), numbers);
+        Iterable<Integer> noIt = Collections.takeWhile(Predicate.ALWAYS_FALSE, numbers);
         ArrayList<Integer> noList = new ArrayList<>();
         noIt.forEach(noList::add);
 

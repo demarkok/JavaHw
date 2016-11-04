@@ -1,6 +1,7 @@
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class PredicateTest {
     @Test
@@ -36,16 +37,16 @@ public class PredicateTest {
 
     @Test
     public void constants() {
-        Predicate<Integer> fls = new Predicate.ALWAYS_FALSE <> ();
+        Predicate<Object> fls = Predicate.ALWAYS_FALSE;
         assertFalse(fls.apply(5));
 
-        Predicate<Integer> tru = new Predicate.ALWAYS_TRUE <> ();
+        Predicate<Object> tru = Predicate.ALWAYS_TRUE;
         assertTrue(tru.apply(5));
     }
 
     @Test
     public void inheritanceFeatures(){
-        Predicate<Object> tru = new Predicate.ALWAYS_TRUE <>();
+        Predicate<Object> tru = Predicate.ALWAYS_TRUE;
         Predicate<Integer> pos = x -> x > 0;
 
         Predicate<Integer> f = pos.and(tru);

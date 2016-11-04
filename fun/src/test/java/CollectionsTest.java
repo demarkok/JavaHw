@@ -1,6 +1,7 @@
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 import static org.junit.Assert.assertEquals;
 
@@ -105,6 +106,24 @@ public class CollectionsTest {
     }
 
     @Test
+    public void foldLSpecific() throws Exception {
+        ArrayList<Integer> numbers = new ArrayList<>();
+        numbers.add(1);
+        numbers.add(2);
+        numbers.add(3);
+
+        LinkedHashSet<Integer> s = Collections.foldL((set, x) -> {
+                    LinkedHashSet<Integer> nSet = new LinkedHashSet<>(set);
+                    nSet.add(x);
+                    return nSet;
+                },
+                new LinkedHashSet<Integer>(),
+                numbers);
+
+        assertEquals(new LinkedHashSet<>(numbers), s);
+    }
+
+    @Test
     public void foldR() throws Exception {
         ArrayList<Integer> numbers = new ArrayList<>();
         numbers.add(1);
@@ -115,5 +134,24 @@ public class CollectionsTest {
 
         assertEquals((Integer) 6, sum);
         assertEquals((Integer) 3, max);
+    }
+
+    @Test
+    public void foldRSpecific() throws Exception {
+        ArrayList<Integer> numbers = new ArrayList<>();
+        numbers.add(1);
+        numbers.add(2);
+        numbers.add(3);
+
+        LinkedHashSet<Integer> s = Collections.foldR((x, set) -> {
+                    LinkedHashSet<Integer> nSet = new LinkedHashSet<>(set);
+                    nSet.add(x);
+                    return nSet;
+                },
+                new LinkedHashSet<Integer>(),
+                numbers);
+
+        java.util.Collections.reverse(numbers);
+        assertEquals(new LinkedHashSet<>(numbers), s);
     }
 }

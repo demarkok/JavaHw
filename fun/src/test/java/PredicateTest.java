@@ -59,4 +59,30 @@ public class PredicateTest {
         assertTrue(g.apply(-1));
         assertTrue(g.apply(1));
     }
+
+    @Test
+    public void AndLazinessTest() {
+        Predicate<Object> tru = Predicate.ALWAYS_TRUE;
+        Predicate<Object> bot = x -> {
+            assertTrue(false);
+            return false;
+        };
+
+        Predicate<Object> mustBeTrue = tru.or(bot);
+
+        assertTrue(mustBeTrue.apply(1));
+    }
+
+    @Test
+    public void OrLazinessTest() {
+        Predicate<Object> fls = Predicate.ALWAYS_FALSE;
+        Predicate<Object> bot = x -> {
+            assertTrue(false);
+            return false;
+        };
+
+        Predicate<Object> mustBeFalse = fls.and(bot);
+
+        assertFalse(mustBeFalse.apply(1));
+    }
 }

@@ -2,15 +2,15 @@
 public interface Predicate<ArgT> extends Function1<ArgT, Boolean> {
 
     default Predicate < ArgT > or(Predicate<? super ArgT> p) {
-        return x -> Predicate.this.apply(x) || p.apply(x);
+        return x -> apply(x) || p.apply(x);
     }
 
     default Predicate < ArgT > and(Predicate<? super ArgT> p) {
-        return x -> Predicate.this.apply(x) && p.apply(x);
+        return x -> apply(x) && p.apply(x);
     }
 
     default Predicate < ArgT > not() {
-        return x -> !Predicate.this.apply(x);
+        return x -> !apply(x);
     }
 
     final class ALWAYS_TRUE <ArgT> implements Predicate <ArgT> {

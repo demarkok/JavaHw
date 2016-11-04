@@ -1,8 +1,8 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-class Collections {
-    static <ResT, Q> Iterable<ResT> map(Function1<? super Q, ResT> f, Iterable<Q> a) {
+public class Collections {
+    public static <ResT, Q> Iterable<ResT> map(Function1<? super Q, ResT> f, Iterable<Q> a) {
         return () -> new Iterator <ResT>() {
             private final Iterator <Q> it = a.iterator();
             @Override
@@ -17,7 +17,7 @@ class Collections {
         };
     }
 
-    static <Q> Iterable<Q> filter(Predicate<? super Q> p, Iterable<Q> a) {
+    public static <Q> Iterable<Q> filter(Predicate<? super Q> p, Iterable<Q> a) {
         return () -> new Iterator<Q>() {
             private final Iterator<Q> it = a.iterator();
             boolean superHasNext = true;
@@ -52,7 +52,7 @@ class Collections {
         };
     }
 
-    static <Q> Iterable<Q> takeWhile(Predicate<? super Q> p, Iterable<Q> a) {
+    public static <Q> Iterable<Q> takeWhile(Predicate<? super Q> p, Iterable<Q> a) {
         return () -> new Iterator<Q>() {
 
             private final Iterator<Q> it = a.iterator();
@@ -80,11 +80,11 @@ class Collections {
         };
     }
 
-    static <Q> Iterable<Q> takeUnless(Predicate<? super Q> p, Iterable<Q> a) {
+    public static <Q> Iterable<Q> takeUnless(Predicate<? super Q> p, Iterable<Q> a) {
         return takeWhile(p.not(), a);
     }
 
-    static <A, B> A foldL(Function2<? super A, ? super B, ? extends A> f, A init, Iterable<B> a) {
+    public static <A, B> A foldL(Function2<? super A, ? super B, ? extends A> f, A init, Iterable<B> a) {
         A value = init;
         for (B it : a) {
             value = f.apply(value, it);
@@ -92,7 +92,7 @@ class Collections {
         return value;
     }
 
-    static <A, B> B foldR(Function2<? super A, ? super B, ? extends B> f, B init, Iterable<A> a) {
+    public static <A, B> B foldR(Function2<? super A, ? super B, ? extends B> f, B init, Iterable<A> a) {
         Iterator<A> it = a.iterator();
         if (!it.hasNext()) {
             return init;

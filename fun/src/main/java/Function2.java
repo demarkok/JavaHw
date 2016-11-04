@@ -1,5 +1,5 @@
 @FunctionalInterface
-interface Function2 <Arg1T, Arg2T, ResT> {
+public interface Function2<Arg1T, Arg2T, ResT> {
 
     ResT apply(Arg1T x, Arg2T y);
 

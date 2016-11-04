@@ -1,4 +1,4 @@
-interface Predicate <ArgT> extends Function1 <ArgT, Boolean> {
+public interface Predicate<ArgT> extends Function1<ArgT, Boolean> {
 
     default Predicate < ArgT > or(Predicate<? super ArgT> p) {
         return x -> Predicate.this.apply(x) || p.apply(x);

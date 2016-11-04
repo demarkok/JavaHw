@@ -1,13 +1,13 @@
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class Function2Test {
 
     @Test
     public void compose() throws Exception {
         Function2<String, String, String> concat = (x, y) -> x + y;
-        Function1<String, Integer> length = String::length;
+        Function1<CharSequence, Integer> length = CharSequence::length;
         Function2<String, String, Integer> concatLength = concat.compose(length);
         assertEquals((Integer)8, concatLength.apply("8", "symbols"));
     }

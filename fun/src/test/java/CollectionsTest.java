@@ -2,7 +2,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -12,53 +11,53 @@ import static org.junit.Assert.assertTrue;
 public class CollectionsTest {
     @Test
     public void map() throws Exception {
-        Function1<Integer, Integer> square = (x -> x * x);
-        List<Integer> numbers = Arrays.asList(1, 2, 3);
-        Iterable<Integer> sqIt = Collections.map(square, numbers);
+        Function1<CharSequence, Integer> len = CharSequence::length;
+        List<String> numbers = Arrays.asList("12", "239", "4");
+        Iterable<Integer> sqIt = Collections.map(len, numbers);
 
         List<Integer> sqList = new ArrayList<>();
         sqIt.forEach(sqList::add);
 
-        assertEquals(Arrays.asList(1, 4, 9), sqList);
+        assertEquals(Arrays.asList(2, 3, 1), sqList);
     }
 
 
     @Test
     public void filter() throws Exception {
-        Predicate<Integer> odd = (x -> x % 2 != 0);
-        List<Integer> numbers = Arrays.asList(1, 2, 3);
+        Predicate<CharSequence> oddLen = (x -> x.length() % 2 != 0);
+        List<String> numbers = Arrays.asList("12", "239", "4");
 
-        Iterable<Integer> oddIt = Collections.filter(odd, numbers);
-        List<Integer> oddList = new ArrayList<>();
+        Iterable<String> oddIt = Collections.filter(oddLen, numbers);
+        List<String> oddList = new ArrayList<>();
         oddIt.forEach(oddList::add);
 
-        assertEquals(Arrays.asList(1, 3), oddList);
+        assertEquals(Arrays.asList("239", "4"), oddList);
     }
 
 
     @Test
     public void takeWhile() throws Exception {
-        Predicate<Integer> odd = (x -> x % 2 != 0);
-        List<Integer> numbers = Arrays.asList(-1, 1, 2, 3);
+        Predicate<CharSequence> oddLen = (x -> x.length() % 2 != 0);
+        List<String> numbers = Arrays.asList("123", "2", "42");
 
-        Iterable<Integer> oddIt = Collections.takeWhile(odd, numbers);
-        List<Integer> oddList = new ArrayList<>();
+        Iterable<String> oddIt = Collections.takeWhile(oddLen, numbers);
+        List<String> oddList = new ArrayList<>();
         oddIt.forEach(oddList::add);
 
-        assertEquals(Arrays.asList(-1, 1), oddList);
+        assertEquals(Arrays.asList("123", "2"), oddList);
     }
 
 
     @Test
     public void takeUnless() throws Exception {
-        Predicate<Integer> pos = (x -> x > 0);
-        List<Integer> numbers = Arrays.asList(-2, -1, 1);
+        Predicate<CharSequence> oddLen = (x -> x.length() % 2 != 0);
+        List<String> numbers = Arrays.asList("1234", "22", "4");
 
-        Iterable<Integer> posIt = Collections.takeUnless(pos, numbers);
-        List<Integer> posList = new ArrayList<>();
-        posIt.forEach(posList::add);
+        Iterable<String> oddIt = Collections.takeUnless(oddLen, numbers);
+        List<String> oddList = new ArrayList<>();
+        oddIt.forEach(oddList::add);
 
-        assertEquals(Arrays.asList(-2, -1), posList);
+        assertEquals(Arrays.asList("1234", "22"), oddList);
     }
 
 
@@ -83,55 +82,31 @@ public class CollectionsTest {
     public void foldL() throws Exception {
         List<Integer> numbers = Arrays.asList(1, 2, 3);
 
-        Integer sum = Collections.foldL((x, y) -> x + y, 0, numbers);
-        Integer max = Collections.foldL(Math::max, -1, numbers);
+        Function2<List<String>, Object, ArrayList<String>> foo =
+                (seq, x) -> {
+                    ArrayList<String> nSeq = new ArrayList<>(seq);
+                    nSeq.add(x.toString());
+                    return nSeq;
+                };
 
-        assertEquals((Integer) 6, sum);
-        assertEquals((Integer) 3, max);
+        ArrayList<String> strings = Collections.foldL(foo, new ArrayList<>(), numbers);
+
+        assertEquals(Arrays.asList("1", "2", "3"), strings);
     }
-
-
-    @Test
-    public void foldLSpecific() throws Exception {
-        List<Integer> numbers = Arrays.asList(1, 2, 3);
-
-        LinkedHashSet<Integer> s = Collections.foldL((set, x) -> {
-                    LinkedHashSet<Integer> nSet = new LinkedHashSet<>(set);
-                    nSet.add(x);
-                    return nSet;
-                },
-                new LinkedHashSet<Integer>(),
-                numbers);
-
-        assertEquals(new LinkedHashSet<>(numbers), s);
-    }
-
 
     @Test
     public void foldR() throws Exception {
         List<Integer> numbers = Arrays.asList(1, 2, 3);
 
-        Integer sum = Collections.foldR((x, y) -> x + y, 0, numbers);
-        Integer max = Collections.foldR(Math::max, 0, numbers);
+        Function2<Object, List<String>, ArrayList<String>> foo =
+                (x, seq) -> {
+                    ArrayList<String> nSeq = new ArrayList<>(seq);
+                    nSeq.add(x.toString());
+                    return nSeq;
+                };
 
-        assertEquals((Integer) 6, sum);
-        assertEquals((Integer) 3, max);
-    }
+        ArrayList<String> strings = Collections.foldR(foo, new ArrayList<>(), numbers);
 
-
-    @Test
-    public void foldRSpecific() throws Exception {
-        List<Integer> numbers = Arrays.asList(1, 2, 3);
-
-        LinkedHashSet<Integer> s = Collections.foldR((x, set) -> {
-                    LinkedHashSet<Integer> nSet = new LinkedHashSet<>(set);
-                    nSet.add(x);
-                    return nSet;
-                },
-                new LinkedHashSet<Integer>(),
-                numbers);
-
-        java.util.Collections.reverse(numbers);
-        assertEquals(new LinkedHashSet<>(numbers), s);
+        assertEquals(Arrays.asList("3", "2", "1"), strings);
     }
 }

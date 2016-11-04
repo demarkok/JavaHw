@@ -6,25 +6,25 @@ import static org.junit.Assert.assertTrue;
 
 public class PredicateTest {
     @Test
-    public void or() throws Exception {
-        Predicate<Integer> pos = x -> x > 0;
-        Predicate<Integer> odd = x -> (x % 2 != 0);
-        Predicate<Integer> posAndOdd = pos.and(odd);
-        assertTrue(posAndOdd.apply(3));
-        assertFalse(posAndOdd.apply(6));
-        assertFalse(posAndOdd.apply(-1));
-        assertFalse(posAndOdd.apply(-2));
+    public void and() throws Exception {
+        Predicate<String> big = x -> x.length() > 4;
+        Predicate<CharSequence> odd = x -> (x.length() % 2 != 0);
+        Predicate<String> posAndOdd = big.and(odd);
+        assertTrue(posAndOdd.apply("abcde"));
+        assertFalse(posAndOdd.apply("abcdef"));
+        assertFalse(posAndOdd.apply("abc"));
+        assertFalse(posAndOdd.apply("ab"));
     }
 
     @Test
-    public void and() throws Exception {
-        Predicate<Integer> pos = x -> x > 0;
-        Predicate<Integer> odd = x -> (x % 2 != 0);
-        Predicate<Integer> posAndOdd = pos.or(odd);
-        assertTrue(posAndOdd.apply(3));
-        assertTrue(posAndOdd.apply(6));
-        assertTrue(posAndOdd.apply(-1));
-        assertFalse(posAndOdd.apply(-2));
+    public void or() throws Exception {
+        Predicate<String> big = x -> x.length() > 4;
+        Predicate<CharSequence> odd = x -> (x.length() % 2 != 0);
+        Predicate<String> posAndOdd = big.or(odd);
+        assertTrue(posAndOdd.apply("abcde"));
+        assertTrue(posAndOdd.apply("abcdef"));
+        assertTrue(posAndOdd.apply("abc"));
+        assertFalse(posAndOdd.apply("ab"));
     }
 
     @Test
@@ -32,7 +32,6 @@ public class PredicateTest {
         Predicate<Integer> pos = x -> x > 0;
         Predicate<Integer> notPos = pos.not();
         assertTrue(notPos.apply(0));
-        assertTrue(notPos.apply(-1));
         assertFalse(notPos.apply(1));
     }
 
@@ -43,22 +42,6 @@ public class PredicateTest {
 
         Predicate<Object> tru = Predicate.ALWAYS_TRUE;
         assertTrue(tru.apply(5));
-    }
-
-    @Test
-    public void inheritanceFeatures(){
-        Predicate<Object> tru = Predicate.ALWAYS_TRUE;
-        Predicate<Integer> pos = x -> x > 0;
-
-        Predicate<Integer> f = pos.and(tru);
-//        Predicate<Object> ff = tru.and(pos);  // CE
-        assertFalse(f.apply(0));
-        assertTrue(f.apply(1));
-
-        Predicate<Integer> g = pos.or(tru);
-//        Predicate<Object> gg = tru.or(pos);  // CE
-        assertTrue(g.apply(-1));
-        assertTrue(g.apply(1));
     }
 
     @Test

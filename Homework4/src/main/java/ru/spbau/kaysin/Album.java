@@ -1,4 +1,4 @@
-package sp;
+package ru.spbau.kaysin;
 
 import java.util.Arrays;
 import java.util.List;

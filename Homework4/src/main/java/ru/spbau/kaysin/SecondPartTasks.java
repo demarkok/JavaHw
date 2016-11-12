@@ -1,4 +1,4 @@
-package sp;
+package ru.spbau.kaysin;
 
 import java.util.List;
 import java.util.Map;

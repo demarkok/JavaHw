@@ -1,6 +1,9 @@
 package sp;
 
 import com.google.common.collect.ImmutableMap;
+import ru.spbau.kaysin.Album;
+import ru.spbau.kaysin.Artist;
+import ru.spbau.kaysin.Track;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -11,7 +14,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
-import static sp.FirstPartTasks.*;
+import static ru.spbau.kaysin.FirstPartTasks.*;
 
 public class FirstPartTasksTest {
 

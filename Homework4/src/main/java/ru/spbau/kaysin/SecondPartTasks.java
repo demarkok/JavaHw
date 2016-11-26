@@ -1,6 +1,10 @@
 package ru.spbau.kaysin;
 
 import java.awt.geom.Point2D;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +19,14 @@ public final class SecondPartTasks {
     // Найти строки из переданных файлов, в которых встречается указанная подстрока.
     public static List<String> findQuotes(List<String> paths, CharSequence sequence) {
         return paths.stream()
+                .flatMap(path -> {
+                    Path p = Paths.get(path);
+                    try {
+                        Stream<String> s = Files.lines(p);
+                        return s;
+                    } catch (IOException e) {
+                        return Stream.empty();
+                    }})
                 .filter(s -> s.contains(sequence))
                 .collect(Collectors.toList());
     }
@@ -42,7 +54,7 @@ public final class SecondPartTasks {
                                 .mapToInt(String::length)
                                 .sum()))
                 .map(Map.Entry::getKey)
-                .orElse("");
+                .orElse(null);
 
     }
 

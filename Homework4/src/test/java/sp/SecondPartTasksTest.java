@@ -3,6 +3,7 @@ package sp;
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
 
+import java.io.*;
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
@@ -12,21 +13,34 @@ public class SecondPartTasksTest {
 
     @Test
     public void testFindQuotes() {
-        assertEquals(
-                Arrays.asList("One", "Three", "Five"),
-                findQuotes(Arrays.asList("One", "Two", "Three", "Four", "Five"), "e")
-        );
+        File f1 = new File("one.txt");
+        File f2 = new File("two.txt");
+        try (OutputStream out1 = new FileOutputStream(f1); OutputStream out2 = new FileOutputStream(f2)) {
+            Writer w1 = new OutputStreamWriter(out1);
+            Writer w2 = new OutputStreamWriter(out2);
+            w1.write("Hello1\n");
+            w1.write("World1\n");
 
-        assertEquals(
-                Arrays.asList("One", "Two", "Three"),
-                findQuotes(Arrays.asList("One", "Two", "Three"), "")
-        );
+            w2.write("World2\n");
+            w2.write("Hello2\n");
+
+            w1.close();
+            w2.close();
+
+        } catch (Exception e) {
+            fail();
+        }
+
+        try {
+            assertEquals(Arrays.asList("World1", "World2"), findQuotes(Arrays.asList("one.txt", "two.txt"), "rld"));
+        } catch (Exception e) {
+            fail();
+        }
     }
 
     @Test
     public void testPiDividedBy4() {
-        final double epsilon = 1e-2;
-        assertTrue(Math.abs(piDividedBy4() - Math.PI / 4.0) < epsilon);
+        assertEquals(piDividedBy4(), Math.PI/4, 1e-2);
     }
 
     @Test

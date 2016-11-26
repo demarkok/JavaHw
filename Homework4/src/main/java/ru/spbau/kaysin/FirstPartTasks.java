@@ -66,7 +66,8 @@ public final class FirstPartTasks {
                         Function.identity(),
                         Collectors.counting()))
                 .entrySet().stream()
-                .reduce((long)0, (x, entry) -> x + entry.getValue() - 1, (x, y) -> x + y); // easy, but not simple :(
+                .mapToLong(entry -> entry.getValue() - 1)
+                .sum();
     }
 
     // Альбом, в котором максимум рейтинга минимален
@@ -75,8 +76,8 @@ public final class FirstPartTasks {
         return albums
                 .min(Comparator.comparingInt(
                         album -> album.getTracks().stream()
-                                .max(Comparator.comparingInt(Track::getRating))
-                                .map(Track::getRating)
+                                .mapToInt(Track::getRating)
+                                .max()
                                 .orElse(0)
                 ));
     }
